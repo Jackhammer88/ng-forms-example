@@ -1,0 +1,74 @@
+<h1 class="text-center">Sample form</h1>
+
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12 col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2">
+      <form [formGroup]="projectForm" (submit)="onSubmit()">
+        <div class="form-group">
+          <label for="project">Project name</label>
+          <input type="text" id="project" formControlName="project">
+          <span
+            class="alert-danger"
+            *ngIf="projectForm.get('project')?.hasError('required')
+              && projectForm.get('project')?.touched">
+            Project name is required.
+          </span>
+          <span
+            class="alert-danger"
+            *ngIf="projectForm.get('project')?.hasError('nameIsForbidden')
+              && projectForm.get('project')?.touched">
+            This name is forbidden.
+          </span>
+        </div>
+
+        <div class="form-group">
+          <label for="email">Mail</label>
+          <input type="text" id="email" formControlName="email">
+          <span
+            class="alert-danger"
+            *ngIf="projectForm.get('email')?.hasError('required')
+              && projectForm.get('email')?.touched">
+            Email is required.
+          </span>
+          <span
+            class="alert-danger"
+            *ngIf="projectForm.get('email')?.hasError('email')
+              && projectForm.get('email')?.touched">
+            Email format is incorrect.
+          </span>
+          <span
+            class="alert-danger"
+            *ngIf="projectForm.get('email')?.hasError('emailsIsForbidden')">
+            Email format is forbidden.
+          </span>
+          <span
+            class="alert-warning"
+            *ngIf="projectForm.pending">
+            We're checking your email...
+          </span>
+        </div>
+
+        <div class="form-group">
+          <label>Status</label>
+          <select formControlName="status">
+            <option *ngFor="let status of statuses" [value]="status">{{ status }}</option>
+          </select>
+        </div>
+
+        <button class="btn btn-primary" type="submit" [disabled]="projectForm.invalid
+          || projectForm.pending">Update</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="row" *ngIf="submitted">
+    <div class="col-xs-12 col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2">
+      <h1 class="text-center">Your data</h1>
+        <div class="col-xs-12">
+          <p>Project name: {{ projectForm.value.project }}</p>
+          <p>Mail: {{ projectForm.value.email }}</p>
+          <p>Status: {{ projectForm.value.status }}</p>
+        </div>
+    </div>
+  </div>
+</div>
